@@ -9,8 +9,12 @@ from selenium.webdriver.chrome.service import Service as ChromService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from login_page import LoginPage
+from pages import LoginPage
 from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 # Use fixture() to create setup and teardown for test cases:
@@ -24,7 +28,7 @@ def driver():
 
 def test_login_success(driver):
     login_page = LoginPage(driver)
-    login_page.open_page("https://trytestingthis.netlify.app/")
+    login_page.open_login_page()
     time.sleep(1)
     login_page.enter_username("test")
     time.sleep(1)
@@ -37,7 +41,7 @@ def test_login_success(driver):
     
 def test_login_failure_accept(driver):
     login_page = LoginPage(driver)
-    login_page.open_page("https://trytestingthis.netlify.app/")
+    login_page.open_login_page()
     time.sleep(1)
     login_page.enter_username("faI1l")
     time.sleep(1)
@@ -49,7 +53,7 @@ def test_login_failure_accept(driver):
 
 def test_login_failure_dismiss(driver):
     login_page = LoginPage(driver)
-    login_page.open_page("https://trytestingthis.netlify.app/")
+    login_page.open_login_page()
     time.sleep(1)
     login_page.enter_username("faI1l")
     time.sleep(1)
@@ -61,8 +65,20 @@ def test_login_failure_dismiss(driver):
 
 def test_sample_alert(driver):
     login_page = LoginPage(driver)
-    login_page.open_page("https://trytestingthis.netlify.app/")
+    login_page.open_login_page()
     time.sleep(1)
     login_page.click_sample_alert_button()
     time.sleep(1)
     login_page.click_dismiss_alert()
+
+def test_tool_tip(driver):
+    login_page = LoginPage(driver)
+    login_page.open_login_page()
+    time.sleep(1)
+    sample_tooltip = driver.find_element(By.XPATH, "/html/body/div[3]/div[1]/div[2]")
+    time.sleep(1)
+    ActionChains(driver).move_to_element(sample_tooltip).perform()
+    time.sleep(3)
+    tool_tip_elm = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[1]/div[2]/span")))
+    time.sleep(1)
+    assert "This is your sample Tooltip text" in tool_tip_elm.text
