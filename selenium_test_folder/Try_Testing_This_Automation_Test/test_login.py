@@ -19,13 +19,19 @@ def driver():
     driver.close()
     driver.quit()
 
+def test_double_click(driver):
+    login_page = LoginPage(driver)
+    login_page.open_login_page()
+    login_page.verify_double_click_text()
+    login_page.verify_double_click_button()
+
 def test_login_success(driver):
     login_page = LoginPage(driver)
     login_page.open_login_page()
     login_page.enter_username("test")
     login_page.enter_password("test")
     login_page.click_login()
-    login_page.verify_success()
+    login_page.verify_login_success()
     
 def test_login_failure_accept(driver):
     login_page = LoginPage(driver)

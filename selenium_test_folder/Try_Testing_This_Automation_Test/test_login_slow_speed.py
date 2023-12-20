@@ -19,6 +19,15 @@ def driver():
     driver.close()
     driver.quit()
 
+def test_double_click(driver):
+    login_page = LoginPage(driver)
+    login_page.open_login_page()
+    time.sleep(1)
+    login_page.verify_double_click_text()
+    time.sleep(1)
+    login_page.verify_double_click_button()
+    time.sleep(1)
+
 def test_login_success(driver):
     login_page = LoginPage(driver)
     login_page.open_login_page()
@@ -29,7 +38,7 @@ def test_login_success(driver):
     time.sleep(1)
     login_page.click_login()
     time.sleep(1)
-    login_page.verify_success()
+    login_page.verify_login_success()
     time.sleep(1)
     
 def test_login_failure_accept(driver):
@@ -58,13 +67,13 @@ def test_login_failure_dismiss(driver):
     login_page.click_dismiss_alert()
     time.sleep(1)
 
-def test_sample_alert(driver):
+def test_sample_alert_accept(driver):
     login_page = LoginPage(driver)
     login_page.open_login_page()
     time.sleep(1)
     login_page.click_sample_alert_button()
     time.sleep(1)
-    login_page.click_dismiss_alert()
+    login_page.click_accept_alert()
     time.sleep(1)
     login_page.verify_sample_alert_after_press("You Pressed the OK Button!")
     time.sleep(1)
@@ -84,7 +93,11 @@ def test_sample_photo(driver):
     login_page = LoginPage(driver)
     login_page.open_login_page()
     time.sleep(1)
-    login_page.verify_sample_photo()
+    login_page.verify_sample_photo_text()
+    time.sleep(1)
+    login_page.verify_sample_photo_image()
+    time.sleep(1)
+    login_page.verify_sample_photo_description()
     time.sleep(1)
 
 def test_tool_tip(driver):

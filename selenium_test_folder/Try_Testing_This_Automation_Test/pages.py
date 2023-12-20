@@ -10,19 +10,22 @@ class LoginPage:
     def __init__(self, driver):
         # Declare driver variable here:
         self.driver = driver
+        self.action_chains = ActionChains(self.driver)
         self.login_page_url = "https://trytestingthis.netlify.app/"
         # Declare variables that locate certain elements on the page:
-        self.loc_username_textbox = (By.ID, "uname")
-        self.loc_password_textbox = (By.ID, "pwd")
+        self.loc_double_click_button = (By.XPATH, "/html/body/div[3]/div[1]/button")
         self.loc_login_button = (By.XPATH, "//input[@value='Login']")
+        self.loc_password_textbox = (By.ID, "pwd")
         self.loc_sample_alert_button = (By.XPATH, "/html/body/div[3]/div[1]/div[1]/button")
         self.loc_sample_alert_button_after_press = (By.ID, "demo")
+        self.loc_sample_double_click_text = (By.XPATH, "/html/body/div[3]/div[1]/p[3]")
         self.loc_sample_photo_text = (By.XPATH, "/html/body/div[3]/div[1]/h4")
         self.loc_sample_photo_image = (By.XPATH, "/html/body/div[3]/div[1]/div[3]")
         self.loc_sample_photo_description = (By.XPATH, "/html/body/div[3]/div[1]/p[1]")
         self.loc_sample_photo_emojis = (By.XPATH, "/html/body/div[3]/div[1]/p[2]")
         self.loc_sample_tooltip = (By.XPATH, "/html/body/div[3]/div[1]/div[2]")
         self.loc_sample_tooltip_txt = (By.XPATH, "/html/body/div[3]/div[1]/div[2]/span")
+        self.loc_username_textbox = (By.ID, "uname")
 
 
     def click_accept_alert(self):
@@ -45,18 +48,26 @@ class LoginPage:
         
     def hover_sample_tooltip(self):
         self.sample_tooltip = self.driver.find_element(*self.loc_sample_tooltip)
-        ActionChains(self.driver).move_to_element(self.sample_tooltip).perform()
+        self.action_chains.move_to_element(self.sample_tooltip).perform()
  
     def open_login_page(self):
         self.driver.get(self.login_page_url)
         self.driver.maximize_window()
 
+    def verify_double_click_button(self): 
+        self.double_click_button = self.driver.find_element(*self.loc_double_click_button)
+        self.action_chains.double_click(self.double_click_button)
+
+    def verify_double_click_text(self):
+        self.sample_double_click_text = self.driver.find_element(*self.loc_sample_double_click_text)
+        assert "This is your sample Double Click" in self.sample_double_click_text.text
+
+    def verify_login_success(self):
+        assert "Successful" in self.driver.page_source
+
     def verify_sample_alert_after_press(self, text):
         self.sample_alert_button_after_press = self.driver.find_element(*self.loc_sample_alert_button_after_press)
         assert text in self.sample_alert_button_after_press.text
-
-    def verify_success(self):
-        assert "Successful" in self.driver.page_source
 
     def verify_sample_photo_description(self):
         self.sample_photo_description = self.driver.find_element(*self.loc_sample_photo_description)
