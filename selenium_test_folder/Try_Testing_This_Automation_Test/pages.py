@@ -20,6 +20,7 @@ class LoginPage:
         self.loc_sample_photo_text = (By.XPATH, "/html/body/div[3]/div[1]/h4")
         self.loc_sample_photo_image = (By.XPATH, "/html/body/div[3]/div[1]/div[3]")
         self.loc_sample_photo_description = (By.XPATH, "/html/body/div[3]/div[1]/p[1]")
+        self.loc_sample_photo_emojis = (By.XPATH, "/html/body/div[3]/div[1]/p[2]")
         self.loc_sample_tooltip = (By.XPATH, "/html/body/div[3]/div[1]/div[2]")
         self.loc_sample_tooltip_txt = (By.XPATH, "/html/body/div[3]/div[1]/div[2]/span")
 
@@ -57,12 +58,16 @@ class LoginPage:
     def verify_success(self):
         assert "Successful" in self.driver.page_source
 
-    def verify_sample_photo(self):
-        self.sample_photo_text = self.driver.find_element(*self.loc_sample_photo_text)
-        assert "This is your sample photo" in self.sample_photo_text.text
-        self.sample_photo_image = self.driver.find_element(*self.loc_sample_photo_image)
+    def verify_sample_photo_description(self):
         self.sample_photo_description = self.driver.find_element(*self.loc_sample_photo_description)
         assert "This is your description of the photo" in self.sample_photo_description.text
+
+    def verify_sample_photo_image(self):
+        self.sample_photo_image = self.driver.find_element(*self.loc_sample_photo_image)
+
+    def verify_sample_photo_text(self):
+        self.sample_photo_text = self.driver.find_element(*self.loc_sample_photo_text)
+        assert "This is your sample photo" in self.sample_photo_text.text
 
     def verify_tool_tip_text(self):
         self.sample_tooltip_txt = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.loc_sample_tooltip_txt))

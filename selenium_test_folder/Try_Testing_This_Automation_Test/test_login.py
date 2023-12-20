@@ -60,7 +60,9 @@ def test_sample_alert_dismiss(driver):
 def test_sample_photo(driver):
     login_page = LoginPage(driver)
     login_page.open_login_page()
-    login_page.verify_sample_photo()
+    login_page.verify_sample_photo_text()
+    login_page.verify_sample_photo_image()
+    login_page.verify_sample_photo_description()
 
 def test_tool_tip(driver):
     login_page = LoginPage(driver)
